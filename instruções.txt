@@ -1,0 +1,15 @@
+Instruções Tipo R:
+move, mfhi, mflo
+add, addi, addu
+sub, subu
+mul, mulo, mulou
+mult, multu
+div, divu
+rem, remu
+and, andi
+neg, negu
+nor, not
+or, ori
+rol, ror
+sll, sla, srl, sra
+xor, xori
