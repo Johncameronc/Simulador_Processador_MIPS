@@ -1,15 +1,19 @@
 Instruções Tipo R:
-move, mfhi, mflo
-add, addi, addu
-sub, subu
-mul, mulo, mulou
-mult, multu
-div, divu
-rem, remu
-and, andi
-neg, negu
-nor, not
-or, ori
-rol, ror
-sll, sla, srl, sra
-xor, xori
+add
+sub
+mult
+div
+and
+or
+
+Instruções Tipo I:
+lw
+sw
+
+Instruções Tipo J:
+j label
+
+Opcode separado
+beq
+bne
+j (incluido)
