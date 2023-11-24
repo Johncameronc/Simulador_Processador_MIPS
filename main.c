@@ -1,6 +1,29 @@
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
+#include <math.h>
+
+void borda(int n){
+  for(int i = 0; i < n + 1; i++){
+    printf("█");
+  }
+  printf("\n");
+}
+
+void seletoresInicio(int n){
+  printf("██");
+  for(int i = 0; i < n + 1; i++){
+    printf(" ");
+  }
+}
+
+void vazio(){
+  printf("██");
+  for(int i = 0; i < 97; i++){
+    printf(" ");
+  }
+  printf("██\n");
+}
 
 void buscaIntrucao(char instrucao[], int registradores[], int *PC){
 
@@ -48,6 +71,10 @@ void buscaIntrucao(char instrucao[], int registradores[], int *PC){
     tipoInst = 4;  opcode = 2;
   }
 
+  if(strcmp(instrucao, "li") == 0){
+    tipoInst = 5;  opcode = 9;
+  }
+
   if(tipoInst == 1){
     opcode = 0;
     printf("Informe RS: ");
@@ -71,6 +98,11 @@ void buscaIntrucao(char instrucao[], int registradores[], int *PC){
   } else if(tipoInst == 4){
     printf("Informe o valor da label: ");
     scanf("%li", &label);
+  } else if(tipoInst == 5){
+    printf("Informe RS: ");
+    scanf(" %s", &rs);
+    printf("Informe o valor: ");
+    scanf("%d", &valor);
   }
 
   bancoRegistradores(registradores, opcode, rs, rd, rt, funct, label, &PC, tipoInst, valor);
@@ -81,130 +113,160 @@ void bancoRegistradores(int registradores[], int opcode, char rs[3], char rd[3],
 
   int x, y, z;
   
-  if(strcmp(rs, "$t0") == 0)  { x = 8; }
-  if(strcmp(rs, "$t1") == 0)  { x = 9; }
-  if(strcmp(rs, "$t2") == 0)  { x = 10; }
-  if(strcmp(rs, "$t3") == 0)  { x = 11; }
-  if(strcmp(rs, "$t4") == 0)  { x = 12; }
-  if(strcmp(rs, "$t5") == 0)  { x = 13; }
-  if(strcmp(rs, "$t6") == 0)  { x = 14; }
+  if(strcmp(rs, "$zero") == 0){ x = 0; }  if(strcmp(rs, "$t0") == 0)  { x = 8; }  if(strcmp(rs, "$t1") == 0)  { x = 9; }  if(strcmp(rs, "$t2") == 0)  { x = 10; }
+  if(strcmp(rs, "$t3") == 0)  { x = 11; } if(strcmp(rs, "$t4") == 0)  { x = 12; } if(strcmp(rs, "$t5") == 0)  { x = 13; } if(strcmp(rs, "$t6") == 0)  { x = 14; }
   if(strcmp(rs, "$t7") == 0)  { x = 15; }
 
-  if(strcmp(rs, "$s0") == 0)  { x = 16; }
-  if(strcmp(rs, "$s1") == 0)  { x = 17; } 
-  if(strcmp(rs, "$s2") == 0)  { x = 18; } 
-  if(strcmp(rs, "$s3") == 0)  { x = 19; } 
-  if(strcmp(rs, "$s4") == 0)  { x = 20; } 
-  if(strcmp(rs, "$s5") == 0)  { x = 21; } 
-  if(strcmp(rs, "$s6") == 0)  { x = 22; } 
-  if(strcmp(rs, "$s7") == 0)  { x = 23; } 
+  if(strcmp(rs, "$s0") == 0)  { x = 16; } if(strcmp(rs, "$s1") == 0)  { x = 17; } if(strcmp(rs, "$s2") == 0)  { x = 18; } if(strcmp(rs, "$s3") == 0)  { x = 19; } 
+  if(strcmp(rs, "$s4") == 0)  { x = 20; } if(strcmp(rs, "$s5") == 0)  { x = 21; } if(strcmp(rs, "$s6") == 0)  { x = 22; } if(strcmp(rs, "$s7") == 0)  { x = 23; } 
 
-  if(strcmp(rs, "$t8") == 0)  { x = 24; } 
-  if(strcmp(rs, "$t9") == 0)  { x = 25; }
-
-  // rs = x | rt = y | rd = z
-
+  if(strcmp(rs, "$t8") == 0)  { x = 24; } if(strcmp(rs, "$t9") == 0)  { x = 25; }
+  
   // -------------------------------------------------- //
 
-  if(strcmp(rt, "$t0") == 0)  { y = 8; }
-  if(strcmp(rt, "$t1") == 0)  { y = 9; }
-  if(strcmp(rt, "$t2") == 0)  { y = 10; }
-  if(strcmp(rt, "$t3") == 0)  { y = 11; }
-  if(strcmp(rt, "$t4") == 0)  { y = 12; }
-  if(strcmp(rt, "$t5") == 0)  { y = 13; }
-  if(strcmp(rt, "$t6") == 0)  { y = 14; }
+  if(strcmp(rt, "$zero") == 0){ y = 0; }  if(strcmp(rt, "$t0") == 0)  { y = 8; }  if(strcmp(rt, "$t1") == 0)  { y = 9; }  if(strcmp(rt, "$t2") == 0)  { y = 10; }
+  if(strcmp(rt, "$t3") == 0)  { y = 11; } if(strcmp(rt, "$t4") == 0)  { y = 12; } if(strcmp(rt, "$t5") == 0)  { y = 13; } if(strcmp(rt, "$t6") == 0)  { y = 14; }
   if(strcmp(rt, "$t7") == 0)  { y = 15; }
 
-  if(strcmp(rt, "$s0") == 0)  { y = 16; }
-  if(strcmp(rt, "$s1") == 0)  { y = 17; } 
-  if(strcmp(rt, "$s2") == 0)  { y = 18; } 
-  if(strcmp(rt, "$s3") == 0)  { y = 19; } 
-  if(strcmp(rt, "$s4") == 0)  { y = 20; } 
-  if(strcmp(rt, "$s5") == 0)  { y = 21; } 
-  if(strcmp(rt, "$s6") == 0)  { y = 22; } 
-  if(strcmp(rt, "$s7") == 0)  { y = 23; } 
+  if(strcmp(rt, "$s0") == 0)  { y = 16; } if(strcmp(rt, "$s1") == 0)  { y = 17; } if(strcmp(rt, "$s2") == 0)  { y = 18; } if(strcmp(rt, "$s3") == 0)  { y = 19; } 
+  if(strcmp(rt, "$s4") == 0)  { y = 20; } if(strcmp(rt, "$s5") == 0)  { y = 21; } if(strcmp(rt, "$s6") == 0)  { y = 22; } if(strcmp(rt, "$s7") == 0)  { y = 23; } 
 
-  if(strcmp(rt, "$t8") == 0)  { y = 24; } 
-  if(strcmp(rt, "$t9") == 0)  { y = 25; }
-
+  if(strcmp(rt, "$t8") == 0)  { y = 24; } if(strcmp(rt, "$t9") == 0)  { y = 25; }
+  
   // -------------------------------------------------- //
 
-  if(strcmp(rd, "$t0") == 0)  { z = 8; }
-  if(strcmp(rd, "$t1") == 0)  { z = 9; }
-  if(strcmp(rd, "$t2") == 0)  { z = 10; }
-  if(strcmp(rd, "$t3") == 0)  { z = 11; }
-  if(strcmp(rd, "$t4") == 0)  { z = 12; }
-  if(strcmp(rd, "$t5") == 0)  { z = 13; }
-  if(strcmp(rd, "$t6") == 0)  { z = 14; }
+  if(strcmp(rd, "$zero") == 0){ x = 0; }  if(strcmp(rd, "$t0") == 0)  { z = 8; }  if(strcmp(rd, "$t1") == 0)  { z = 9; }  if(strcmp(rd, "$t2") == 0)  { z = 10; }
+  if(strcmp(rd, "$t3") == 0)  { z = 11; } if(strcmp(rd, "$t4") == 0)  { z = 12; } if(strcmp(rd, "$t5") == 0)  { z = 13; } if(strcmp(rd, "$t6") == 0)  { z = 14; }
   if(strcmp(rd, "$t7") == 0)  { z = 15; }
 
-  if(strcmp(rd, "$s0") == 0)  { z = 16; }
-  if(strcmp(rd, "$s1") == 0)  { z = 17; } 
-  if(strcmp(rd, "$s2") == 0)  { z = 18; } 
-  if(strcmp(rd, "$s3") == 0)  { z = 19; } 
-  if(strcmp(rd, "$s4") == 0)  { z = 20; } 
-  if(strcmp(rd, "$s5") == 0)  { z = 21; } 
-  if(strcmp(rd, "$s6") == 0)  { z = 22; } 
-  if(strcmp(rd, "$s7") == 0)  { z = 23; } 
+  if(strcmp(rd, "$s0") == 0)  { z = 16; } if(strcmp(rd, "$s1") == 0)  { z = 17; } if(strcmp(rd, "$s2") == 0)  { z = 18; } if(strcmp(rd, "$s3") == 0)  { z = 19; }
+  if(strcmp(rd, "$s4") == 0)  { z = 20; } if(strcmp(rd, "$s5") == 0)  { z = 21; } if(strcmp(rd, "$s6") == 0)  { z = 22; } if(strcmp(rd, "$s7") == 0)  { z = 23; } 
 
-  if(strcmp(rd, "$t8") == 0)  { z = 24; } 
-  if(strcmp(rd, "$t9") == 0)  { z = 25; }
-
+  if(strcmp(rd, "$t8") == 0)  { z = 24; } if(strcmp(rd, "$t9") == 0)  { z = 25; }
+  
   ULA(registradores, opcode, rs, rd, rt, funct, label, &PC, x, y, z, tipoInst, valor);
 
 }
 
+int conversao(int decimal, int binario[], int n){
+
+  if(decimal > 0){
+    binario[n] = decimal % 2;
+    return conversao(decimal / 2, binario, n - 1);
+  }
+
+}
+
+int binarioParaDecimal(int binario[], int tamanho) {
+    if (tamanho == 0) {
+        return 0;
+    }
+
+    int resultado = binarioParaDecimal(binario, tamanho - 1);
+
+    int bit = binario[tamanho - 1];
+    resultado += bit * pow(2, (16 - tamanho));
+
+    return resultado;
+}
+
 void ULA(int registradores[], int opcode, char rs[5], char rd[5], char rt[5], int funct, long int label, int ***PC, int x, int y, int z, int tipoInst, int valor){
 
+  system("cls");
+
+  int binario1[16] = {0}, binario2[16] = {0}, binario3[16] = {0}, i;
+
   switch(tipoInst){
+
     case 1:
     printf("Opcode = [%d] | RS = [%d] | RT = [%d] | RD = [%d] | Schamt = [0] | Funct = [%d]\n", opcode, x, y, z, funct);
     switch(funct){
-      case 24: printf("%s = %s * %s\n", rs, rt, rd); registradores[x] = registradores[y] * registradores[z]; break;
-      case 26: printf("%s = %s / %s\n", rs, rt, rd); registradores[x] = registradores[y] / registradores[z]; break;
-      case 32: printf("%s = %s + %s\n", rs, rt, rd); registradores[x] = registradores[y] + registradores[z]; break;
-      case 34: printf("%s = %s - %s\n", rs, rt, rd); registradores[x] = registradores[y] - registradores[z]; break;
-      case 36: printf("%s = %s & %s\n", rs, rt, rd); break;
-      case 37: printf("%s = %s | %s\n", rs, rt, rd); break;
+      case 24: printf("[%s] = [%s] * [%s]\n", rs, rt, rd); printf("[%d] = [%d] * [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] * registradores[z]; printf("Resultado = [%d]\n", registradores[x]); system("pause"); break;
+      case 26: printf("[%s] = [%s] / [%s]\n", rs, rt, rd); printf("[%d] = [%d] / [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] / registradores[z]; printf("Resultado = [%d]\n", registradores[x]); system("pause"); break;
+      case 32: printf("[%s] = [%s] + [%s]\n", rs, rt, rd); printf("[%d] = [%d] + [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] + registradores[z]; printf("Resultado = [%d]\n", registradores[x]); system("pause"); break;
+      case 34: printf("[%s] = [%s] - [%s]\n", rs, rt, rd); printf("[%d] = [%d] - [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] - registradores[z]; printf("Resultado = [%d]\n", registradores[x]); system("pause"); break;
+      // Função AND
+      case 36: printf("[%s] = [%s] & [%s]\n", rs, rt, rd); printf("[%d] = [%d] & [%d]\n", registradores[x], registradores[y], registradores[z]); 
+      conversao(registradores[y], binario1, 15); conversao(registradores[z], binario2, 15);
+      for(i = 15; i > -1; i--){
+        if(binario1[i] == 1 && binario2[i] == 1){
+          binario3[i] = 1;
+        } else {
+          binario3[i] = 0;
+        }
+      }
+      registradores[x] = binarioParaDecimal(binario3, 16);
+      printf("Resultado = [%d]\n", registradores[x]);
+      system("pause");
+      break;
+      // Função OR
+      case 37: printf("[%s] = [%s] | [%s]\n", rs, rt, rd); printf("[%d] = [%d] | [%d]\n", registradores[x], registradores[y], registradores[z]); 
+      conversao(registradores[y], binario1, 15); conversao(registradores[z], binario2, 15);
+      for(i = 15; i > -1; i--){
+        if(binario1[i] == 0 && binario2[i] == 0){
+          binario3[i] = 0;
+        } else {
+          binario3[i] = 1;
+        }
+      }
+      registradores[x] = binarioParaDecimal(binario3, 16);
+      printf("Resultado = [%d]\n", registradores[x]);
+      system("pause");
+      break;
     }
     break;
+
     case 2:
-    // rs = x | rt = y | rd = z
     printf("Opcode = [%d] | RS = [%d] | RT = [%d] | End Label = [%li]\n", opcode, x, y, label);
     if(opcode == 4){
       printf("beq %s, %s = [%s == %s] branch to label\n", rs, rt, rs, rt);
       if(registradores[x] == registradores[y]){
         ***PC += label;
-        printf("é igual\n");
+        printf("[%d] e [%d] são iguais\n", registradores[x], registradores[y]);
       }
     }
     if(opcode == 5){
       printf("bne %s, %s = [%s != %s] branch to label\n", rs, rt, rs, rt);
       if(registradores[x] != registradores[y]){
         ***PC += label;
+        printf("[%d] e [%d] são diferentes\n", registradores[x], registradores[y]);
       }
     }
+    printf("Resultado = [%d]\n", ***PC);
+    system("pause");
     break;
 
     case 3:
-    printf("Opcode = [%d] | RS = [%d] | immediate = [%d]\n", opcode, x, valor);
+    printf("Opcode = [%d] | RS = [%d] | Immediate = [%d]\n", opcode, x, valor);
     if(opcode == 35){
       registradores[x] = valor;
-      printf("carrega a word %d, para o %s\n", valor, rs);
+      printf("carrega a word [%d], para o [%s]\n", valor, rs);
     }
     if(opcode == 43){
       valor = registradores[x];
-      printf("copia a word %d, para o %s\n", valor, rs);
+      printf("copia a word [%d], para o [%s]\n", valor, rs);
     }
+    printf("Resultado = [%d]\n", registradores[x]);
+    system("pause");
     break;
 
     case 4:
     printf("Opcode = [%d] | End Label = [%li]\n", opcode, label);
     ***PC += label;
     printf("Código irá pular para o endereço | PC = [%li]\n", ***PC);
+    system("pause");
     break;
 
+    case 5:
+    printf("Opcode = [%d] | RS = [0] | RT = [%d] | Immediate = [%d]\n", opcode, x, valor);
+    printf("[%s] = [0] + [%d]\n", rs, valor);
+    registradores[x] = valor;
+    printf("Resultado = [%d]\n", registradores[x]);
+    system("pause");
+    break;
   }
+
+  registradores[0] = 0;
 
 }
 
@@ -221,7 +283,12 @@ void main(){
 
   while(instrucao[0] != '0'){
     system("cls");
+
+    borda(100); vazio(); seletoresInicio(38);
+    printf("SIMULADOR PROCESSADOR MIPS                                ██\n");
+    vazio();borda(100); 
     
+    printf("Digite somente ""0"" para sair\n");
     printf("Digite a instrução: ");
     scanf("%s", &instrucao);
 
@@ -232,26 +299,27 @@ void main(){
 
   }
 
-  printf("$st0 = [%d]\n", registradores[8]);
-  printf("$st1 = [%d]\n", registradores[9]);
-  printf("$st2 = [%d]\n", registradores[10]);
-  printf("$st3 = [%d]\n", registradores[11]);
-  printf("$st4 = [%d]\n", registradores[12]);
-  printf("$st5 = [%d]\n", registradores[13]);
-  printf("$st6 = [%d]\n", registradores[14]);
-  printf("$st7 = [%d]\n", registradores[15]);
+  printf("$zero = [%d]\n",registradores[0]);
+  printf("$st0 =  [%d]\n", registradores[8]);
+  printf("$st1 =  [%d]\n", registradores[9]);
+  printf("$st2 =  [%d]\n", registradores[10]);
+  printf("$st3 =  [%d]\n", registradores[11]);
+  printf("$st4 =  [%d]\n", registradores[12]);
+  printf("$st5 =  [%d]\n", registradores[13]);
+  printf("$st6 =  [%d]\n", registradores[14]);
+  printf("$st7 =  [%d]\n", registradores[15]);
 
-  printf("$s0 = [%d]\n", registradores[16]);
-  printf("$s1 = [%d]\n", registradores[17]);
-  printf("$s2 = [%d]\n", registradores[18]);
-  printf("$s3 = [%d]\n", registradores[19]);
-  printf("$s4 = [%d]\n", registradores[20]);
-  printf("$s5 = [%d]\n", registradores[21]);
-  printf("$s6 = [%d]\n", registradores[22]);
-  printf("$s7 = [%d]\n", registradores[23]);
+  printf("$s0 =   [%d]\n", registradores[16]);
+  printf("$s1 =   [%d]\n", registradores[17]);
+  printf("$s2 =   [%d]\n", registradores[18]);
+  printf("$s3 =   [%d]\n", registradores[19]);
+  printf("$s4 =   [%d]\n", registradores[20]);
+  printf("$s5 =   [%d]\n", registradores[21]);
+  printf("$s6 =   [%d]\n", registradores[22]);
+  printf("$s7 =   [%d]\n", registradores[23]);
 
-  printf("$st8 = [%d]\n", registradores[24]);
-  printf("$st9 = [%d]\n", registradores[25]);
-  printf("valor do PC no final do simulador = [%li]\n", PC);
+  printf("$st8 =  [%d]\n", registradores[24]);
+  printf("$st9 =  [%d]\n", registradores[25]);
+  printf("PC   =  [%li]\n", PC);
 
 }

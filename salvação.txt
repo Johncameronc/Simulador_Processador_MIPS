@@ -40,6 +40,7 @@ j = 2
 lw = 35
 sw = 43
 
+li = 9
 
 opcodes dops tipos
 
