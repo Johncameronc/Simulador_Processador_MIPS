@@ -28,8 +28,8 @@ void vazio(){
 void buscaIntrucao(char instrucao[], int registradores[], int *PC){
 
   long int label;
-  int valor, tipoInst, opcode, funct;
-  char rs[5], rd[5], rt[5];
+  int valor, offset, tipoInst, opcode, funct;
+  char rs[6], rd[6], rt[6];
 
   if(strcmp(instrucao, "add") == 0){
     tipoInst = 1;   funct = 32;
@@ -92,9 +92,11 @@ void buscaIntrucao(char instrucao[], int registradores[], int *PC){
     scanf("%li", &label);
   } else if(tipoInst == 3){
     printf("Informe RS: ");
-    scanf(" %[^\n]", &rs);
-    printf("Informe valor: ");
+    scanf(" %s", &rs);
+    printf("Informe o offset: ");
     scanf("%d", &valor);
+    printf("Informe o RT: ");
+    scanf(" %s", &rt);
   } else if(tipoInst == 4){
     printf("Informe o valor da label: ");
     scanf("%li", &label);
@@ -105,15 +107,15 @@ void buscaIntrucao(char instrucao[], int registradores[], int *PC){
     scanf("%d", &valor);
   }
 
-  bancoRegistradores(registradores, opcode, rs, rd, rt, funct, label, &PC, tipoInst, valor);
+  bancoRegistradores(registradores, opcode, rs, rd, rt, funct, label, &PC, tipoInst, valor, offset);
 
 }
 
-void bancoRegistradores(int registradores[], int opcode, char rs[3], char rd[3], char rt[3], int funct, long int label, int **PC, int tipoInst, int valor){
+void bancoRegistradores(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], int funct, long int label, int **PC, int tipoInst, int valor, int offset){
 
   int x, y, z;
   
-  if(strcmp(rs, "$zero") == 0){ x = 0; }  if(strcmp(rs, "$t0") == 0)  { x = 8; }  if(strcmp(rs, "$t1") == 0)  { x = 9; }  if(strcmp(rs, "$t2") == 0)  { x = 10; }
+  if(strcmp(rs, "z$ero") == 0){ x = 0; }  if(strcmp(rs, "$t0") == 0)  { x = 8; }  if(strcmp(rs, "$t1") == 0)  { x = 9; }  if(strcmp(rs, "$t2") == 0)  { x = 10; }
   if(strcmp(rs, "$t3") == 0)  { x = 11; } if(strcmp(rs, "$t4") == 0)  { x = 12; } if(strcmp(rs, "$t5") == 0)  { x = 13; } if(strcmp(rs, "$t6") == 0)  { x = 14; }
   if(strcmp(rs, "$t7") == 0)  { x = 15; }
 
@@ -237,14 +239,12 @@ void ULA(int registradores[], int opcode, char rs[5], char rd[5], char rt[5], in
     break;
 
     case 3:
-    printf("Opcode = [%d] | RS = [%d] | Immediate = [%d]\n", opcode, x, valor);
+    printf("Opcode = [%d] | RS = [%d] | RT = [%d] | Immediate = [%d]\n", opcode, x, y, valor);
     if(opcode == 35){
-      registradores[x] = valor;
-      printf("carrega a word [%d], para o [%s]\n", valor, rs);
+      printf("[%s] = memória [ %d + %s ]", rs, valor, rt);
     }
     if(opcode == 43){
-      valor = registradores[x];
-      printf("copia a word [%d], para o [%s]\n", valor, rs);
+      printf("memória [ %d + %s ] = [%s]", rt, valor, rs);
     }
     printf("Resultado = [%d]\n", registradores[x]);
     system("pause");
@@ -266,8 +266,6 @@ void ULA(int registradores[], int opcode, char rs[5], char rd[5], char rt[5], in
     break;
   }
 
-  registradores[0] = 0;
-
 }
 
 void main(){
@@ -282,6 +280,7 @@ void main(){
   long int PC = 0;
 
   while(instrucao[0] != '0'){
+    
     system("cls");
 
     borda(100); vazio(); seletoresInicio(38);
@@ -290,7 +289,7 @@ void main(){
     
     printf("Digite somente ""0"" para sair\n");
     printf("Digite a instrução: ");
-    scanf("%s", &instrucao);
+    scanf(" %s", &instrucao);
 
     if(strcmp(instrucao, "0") != 0){
       PC += 4;
