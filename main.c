@@ -213,7 +213,6 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
       }
       registradores[x] = binarioParaDecimal(binario3, 16);
       printf("Resultado = [%d]\n", registradores[x]);
-      system("pause");
       break;
       // Função OR
       case 37: printf("[%s] = [%s] | [%s]\n", rs, rt, rd); printf("[%d] = [%d] | [%d]\n", registradores[x], registradores[y], registradores[z]); 
@@ -227,7 +226,6 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
       }
       registradores[x] = binarioParaDecimal(binario3, 16);
       printf("Resultado = [%d]\n", registradores[x]);
-      system("pause");
       break;
     }
     break;
@@ -249,7 +247,6 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
       }
     }
     printf("Resultado = [%d]\n", ***PC);
-    system("pause");
     break;
 
     case 3:
@@ -261,14 +258,12 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
       printf("memória [ %d + %s ] = [%s]", rt, valor, rs);
     }
     printf("Resultado = [%d]\n", registradores[x]);
-    system("pause");
     break;
 
     case 4:
     printf("Opcode = [%d] | End Label = [%li]\n", opcode, label);
     ***PC += label;
     printf("Código irá pular para o endereço | PC = [%li]\n", ***PC);
-    system("pause");
     break;
 
     case 5:
@@ -276,10 +271,11 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
     printf("[%s] = [0] + [%d]\n", rs, valor);
     registradores[x] = valor;
     printf("Resultado = [%d]\n", registradores[x]);
-    system("pause");
     break;
   }
 
+  printf("PC = [%d]\n", ***PC);
+  system("pause");
   registradores[0] = 0;
 
 }
