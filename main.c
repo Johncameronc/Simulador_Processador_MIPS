@@ -3,6 +3,18 @@
 #include <windows.h>
 #include <math.h>
 
+void printTitle(){
+  borda(100); vazio(); seletoresInicio(35);
+  printf("SIMULADOR PROCESSADOR MIPS                                   ██\n");
+  vazio();borda(100); 
+}
+
+void printEstrutura(){
+  vazio(); seletoresInicio(42);
+  printf("ESTRUTURA                                             ██\n");
+  vazio();borda(100); 
+}
+
 void borda(int n){
   for(int i = 0; i < n + 1; i++){
     printf("█");
@@ -30,6 +42,8 @@ void buscaIntrucao(char instrucao[], int registradores[], int *PC, int memoria[]
   long int label;
   int valor, offset, tipoInst, opcode, funct;
   char rs[6], rd[6], rt[6];
+
+  system("cls"); printTitle();
 
   if(strcmp(instrucao, "add") == 0){
     tipoInst = 1;   funct = 32;
@@ -81,37 +95,37 @@ void buscaIntrucao(char instrucao[], int registradores[], int *PC, int memoria[]
   if(tipoInst == 1){
     opcode = 0;
     if(funct == 33){
-      printf("Informe RS: ");
+      printf("\n        Informe RS: ");
       scanf(" %s", &rs);
-      printf("Informe RT: ");
+      printf("        Informe RT: ");
       scanf(" %s", &rt);
     } else {
-      printf("Informe RS: ");
+      printf("\n        Informe RS: ");
       scanf(" %s", &rs);
-      printf("Informe RT: ");
+      printf("        Informe RT: ");
       scanf(" %s", &rt);
-      printf("Informe RD: ");
+      printf("        Informe RD: ");
       scanf(" %s", &rd);
     }
   } else if(tipoInst == 2){
-    printf("Informe RS: ");
+    printf("\n        Informe RS: ");
     scanf(" %s", &rs);
-    printf("Informe RT: ");
+    printf("        Informe RT: ");
     scanf(" %s", &rt);
-    printf("Informe o valor da label: ");
+    printf("        Informe o valor da label: ");
     scanf("%li", &label);
   } else if(tipoInst == 3){
-    printf("Informe RS: ");
+    printf("\n        Informe RS: ");
     scanf(" %s", &rs);
-    printf("Informe o posição da RAM (vetor): ");
+    printf("        Informe o posição da RAM (vetor): ");
     scanf("%d", &valor);
   } else if(tipoInst == 4){
-    printf("Informe o valor da label: ");
+    printf("\n        Informe o valor da label: ");
     scanf("%li", &label);
   } else if(tipoInst == 5){
-    printf("Informe RS: ");
+    printf("\n        Informe RS: ");
     scanf(" %s", &rs);
-    printf("Informe o valor: ");
+    printf("        Informe o valor: ");
     scanf("%d", &valor);
   }
 
@@ -182,7 +196,7 @@ int binarioParaDecimal(int binario[], int tamanho) {
 
 void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], int funct, long int label, int ***PC, int x, int y, int z, int tipoInst, int valor, int memoria[]){
 
-  system("cls");
+  system("cls"); printTitle(); printEstrutura();
 
   int binario1[16] = {0}, binario2[16] = {0}, binario3[16] = {0}, i;
 
@@ -190,17 +204,22 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
 
     case 1:
     if(funct == 33){
-      printf("Opcode = [%d] | RS = [%d] | RT = [%d] | Schamt = [0] | Funct = [%d]\n", opcode, x, y, funct);
+      printf("\n        Opcode = [%d] | RS = [%d] | RT = [%d] | Schamt = [0] | Funct = [%d]\n", opcode, x, y, funct);
+      vazio(); borda(100);
       printf("[%s] = [%s]\n", rs, rt); registradores[x] = registradores[y]; system("pause"); break;
+      printf("\n        1. (IF) Busca da Instrução\n");
+      printf("        2. (ID) Decodificação\n");
+      printf("        3. (EX) Execução das Operações Aritméticas / Lógicas ou desvios condicionais\n");
+      printf("        4. (WB) Escrita dos Resultados \n");
     }
-    printf("Opcode = [%d] | RS = [%d] | RT = [%d] | RD = [%d] | Schamt = [0] | Funct = [%d]\n", opcode, x, y, z, funct);
+    printf("\n        Opcode = [%d] | RS = [%d] | RT = [%d] | RD = [%d] | Schamt = [0] | Funct = [%d]\n", opcode, x, y, z, funct);
     switch(funct){
-      case 24: printf("[%s] = [%s] * [%s]\n", rs, rt, rd); printf("[%d] = [%d] * [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] * registradores[z]; printf("Resultado = [%d]\n", registradores[x]); system("pause"); break;
-      case 26: printf("[%s] = [%s] / [%s]\n", rs, rt, rd); printf("[%d] = [%d] / [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] / registradores[z]; printf("Resultado = [%d]\n", registradores[x]); system("pause"); break;
-      case 32: printf("[%s] = [%s] + [%s]\n", rs, rt, rd); printf("[%d] = [%d] + [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] + registradores[z]; printf("Resultado = [%d]\n", registradores[x]); system("pause"); break;
-      case 34: printf("[%s] = [%s] - [%s]\n", rs, rt, rd); printf("[%d] = [%d] - [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] - registradores[z]; printf("Resultado = [%d]\n", registradores[x]); system("pause"); break;
+      case 24: printf("\n        [%s] = [%s] * [%s]\n", rs, rt, rd); printf("        [%d] = [%d] * [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] * registradores[z]; printf("        Resultado = [%d]\n", registradores[x]); break;
+      case 26: printf("\n        [%s] = [%s] / [%s]\n", rs, rt, rd); printf("        [%d] = [%d] / [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] / registradores[z]; printf("        Resultado = [%d]\n", registradores[x]); break;
+      case 32: printf("\n        [%s] = [%s] + [%s]\n", rs, rt, rd); printf("        [%d] = [%d] + [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] + registradores[z]; printf("        Resultado = [%d]\n", registradores[x]); break;
+      case 34: printf("\n        [%s] = [%s] - [%s]\n", rs, rt, rd); printf("        [%d] = [%d] - [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] - registradores[z]; printf("        Resultado = [%d]\n", registradores[x]); break;
       // Função AND
-      case 36: printf("[%s] = [%s] & [%s]\n", rs, rt, rd); printf("[%d] = [%d] & [%d]\n", registradores[x], registradores[y], registradores[z]); 
+      case 36: printf("\n        [%s] = [%s] & [%s]\n", rs, rt, rd); printf("        [%d] = [%d] & [%d]\n", registradores[x], registradores[y], registradores[z]); 
       conversao(registradores[y], binario1, 15); conversao(registradores[z], binario2, 15);
       for(i = 15; i > -1; i--){
         if(binario1[i] == 1 && binario2[i] == 1){
@@ -210,10 +229,14 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
         }
       }
       registradores[x] = binarioParaDecimal(binario3, 16);
-      printf("Resultado = [%d]\n", registradores[x]);
+      printf("        Resultado = [%d]\n", registradores[x]);
+      printf("\n        1. (IF) Busca da Instrução\n");
+      printf("        2. (ID) Decodificação\n");
+      printf("        3. (EX) Execução das Operações Aritméticas / Lógicas ou desvios condicionais\n");
+      printf("        4. (WB) Escrita dos Resultados \n");
       break;
       // Função OR
-      case 37: printf("[%s] = [%s] | [%s]\n", rs, rt, rd); printf("[%d] = [%d] | [%d]\n", registradores[x], registradores[y], registradores[z]); 
+      case 37: printf("\n        [%s] = [%s] | [%s]\n", rs, rt, rd); printf("        [%d] = [%d] | [%d]\n", registradores[x], registradores[y], registradores[z]); 
       conversao(registradores[y], binario1, 15); conversao(registradores[z], binario2, 15);
       for(i = 15; i > -1; i--){
         if(binario1[i] == 0 && binario2[i] == 0){
@@ -223,58 +246,82 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
         }
       }
       registradores[x] = binarioParaDecimal(binario3, 16);
-      printf("Resultado = [%d]\n", registradores[x]);
+      printf("        Resultado = [%d]\n", registradores[x]);
+      printf("\n        1. (IF) Busca da Instrução\n");
+      printf("        2. (ID) Decodificação\n");
+      printf("        3. (EX) Execução das Operações Aritméticas / Lógicas ou desvios condicionais\n");
+      printf("        4. (WB) Escrita dos Resultados \n");
       break;
     }
     break;
 
     case 2:
-    printf("Opcode = [%d] | RS = [%d] | RT = [%d] | End Label = [%li]\n", opcode, x, y, label);
+    printf("\n        Opcode = [%d] | RS = [%d] | RT = [%d] | End Label = [%li]\n", opcode, x, y, label);
     if(opcode == 4){
-      printf("beq %s, %s = [%s == %s] branch to label\n", rs, rt, rs, rt);
+      printf("\n        beq %s, %s = [%s == %s] branch to label\n", rs, rt, rs, rt);
       if(registradores[x] == registradores[y]){
         ***PC += label;
-        printf("[%d] e [%d] são iguais\n", registradores[x], registradores[y]);
+        printf("        [%d] e [%d] são iguais\n", registradores[x], registradores[y]);
+      } else {
+        printf("        [%d] e [%d] não são iguais\n", registradores[x], registradores[y]);
       }
     }
     if(opcode == 5){
-      printf("bne %s, %s = [%s != %s] branch to label\n", rs, rt, rs, rt);
+      printf("\n        bne %s, %s = [%s != %s] branch to label\n", rs, rt, rs, rt);
       if(registradores[x] != registradores[y]){
         ***PC += label;
-        printf("[%d] e [%d] são diferentes\n", registradores[x], registradores[y]);
+        printf("        [%d] e [%d] são diferentes\n", registradores[x], registradores[y]);
+      } else {
+        printf("        [%d] e [%d] não são diferentes\n", registradores[x], registradores[y]);
       }
     }
-    printf("Resultado = [%d]\n", ***PC);
+    printf("        Resultado = [%d]\n", ***PC);
+    printf("\n        1. (IF) Busca da Instrução\n");
+    printf("        2. (ID) Decodificação\n");
+    printf("        3. (EX) Execução das Operações Aritméticas / Lógicas ou desvios condicionais\n");
+    printf("        4. (WB) Escrita dos Resultados \n");
     break;
 
     case 3:
-    printf("Opcode = [%d] | RS = [%d] | Immediate = [%d]\n", opcode, x, valor);
+    printf("\n        Opcode = [%d] | RS = [%d] | Immediate = [%d]\n", opcode, x, valor);
     if(opcode == 35){
       registradores[x] = memoria[valor];
-      printf("[%s] = memória [ %d ]", rs, valor);
+      printf("\n        [%s] = memória[%d]\n", rs, valor);
     }
     if(opcode == 43){
       memoria[valor] = registradores[x];
-      printf("memória [ %d ] = [%s]\n", valor, rs);
+      printf("\n        memória[%d] = [%s]\n", valor, rs);
     }
-    
+    printf("\n        1. (IF) Busca da Instrução\n");
+    printf("        2. (ID) Decodificação\n");
+    printf("        3. (EX) Execução das Operações Aritméticas / Lógicas ou desvios condicionais\n");
+    printf("        4. (MEM) Acesso à memória\n");
+    printf("        5. (WB) Escrita dos Resultados \n");
     break;
 
     case 4:
-    printf("Opcode = [%d] | End Label = [%li]\n", opcode, label);
+    printf("\n        Opcode = [%d] | End Label = [%li]\n", opcode, label);
     ***PC += label;
-    printf("Código irá pular para o endereço | PC = [%li]\n", ***PC);
+    printf("\n        Código irá pular para o endereço | PC = [%li]\n", ***PC);
+    printf("\n        1. (IF) Busca da Instrução\n");
+    printf("        2. (ID) Decodificação\n");
+    printf("        3. (EX) Execução das Operações Aritméticas / Lógicas ou desvios condicionais\n");
+    printf("        4. Desvio incondicional, atualização do PC\n");
     break;
 
     case 5:
-    printf("Opcode = [%d] | RS = [0] | RT = [%d] | Immediate = [%d]\n", opcode, x, valor);
-    printf("[%s] = [0] + [%d]\n", rs, valor);
+    printf("\n        Opcode = [%d] | RS = [0] | RT = [%d] | Immediate = [%d]\n", opcode, x, valor);
+    printf("\n        [%s] = [0] + [%d]\n", rs, valor);
     registradores[x] = valor;
-    printf("Resultado = [%d]\n", registradores[x]);
+    printf("        Resultado = [%d]\n", registradores[x]);
+    printf("\n        1. (IF) Busca da Instrução\n");
+    printf("        2. (ID) Decodificação\n");
+    printf("        3. (EX) Execução das Operações Aritméticas / Lógicas ou desvios condicionais\n");
+    printf("        4. (WB) Escrita dos Resultados \n");
     break;
   }
 
-  printf("PC = [%d]\n", ***PC);
+  printf("\n        PC fim da instrução = [%d]\n", ***PC);
   system("pause");
   registradores[0] = 0;
 
@@ -295,13 +342,10 @@ void main(){
   while((strcmp(instrucao, "sair") != 0)){
     
     system("cls");
-
-    borda(100); vazio(); seletoresInicio(38);
-    printf("SIMULADOR PROCESSADOR MIPS                                ██\n");
-    vazio();borda(100); 
+    printTitle();
     
-    printf("Digite sair para encerrar o programa\n");
-    printf("Digite a instrução: ");
+    printf("\n        Digite sair para encerrar o programa\n");
+    printf("        Digite a instrução: ");
     scanf(" %s", &instrucao);
 
     if(strcmp(instrucao, "sair") != 0){
@@ -311,8 +355,8 @@ void main(){
 
   }
 
-  
-  printf("$zero = [%d]\n",registradores[0]);
+  system("cls"); printTitle();
+  printf("\n$zero = [%d]\n",registradores[0]);
   printf("$st0 =  [%d]\n", registradores[8]);
   printf("$st1 =  [%d]\n", registradores[9]);
   printf("$st2 =  [%d]\n", registradores[10]);
