@@ -25,7 +25,7 @@ void vazio(){
   printf("██\n");
 }
 
-void buscaIntrucao(char instrucao[], int registradores[], int *PC){
+void buscaIntrucao(char instrucao[], int registradores[], int *PC, int memoria[]){
 
   long int label;
   int valor, offset, tipoInst, opcode, funct;
@@ -103,10 +103,8 @@ void buscaIntrucao(char instrucao[], int registradores[], int *PC){
   } else if(tipoInst == 3){
     printf("Informe RS: ");
     scanf(" %s", &rs);
-    printf("Informe o offset: ");
+    printf("Informe o posição da RAM (vetor): ");
     scanf("%d", &valor);
-    printf("Informe o RT: ");
-    scanf(" %s", &rt);
   } else if(tipoInst == 4){
     printf("Informe o valor da label: ");
     scanf("%li", &label);
@@ -117,11 +115,11 @@ void buscaIntrucao(char instrucao[], int registradores[], int *PC){
     scanf("%d", &valor);
   }
 
-  bancoRegistradores(registradores, opcode, rs, rd, rt, funct, label, &PC, tipoInst, valor, offset);
+  bancoRegistradores(registradores, opcode, rs, rd, rt, funct, label, &PC, tipoInst, valor, offset, memoria);
 
 }
 
-void bancoRegistradores(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], int funct, long int label, int **PC, int tipoInst, int valor, int offset){
+void bancoRegistradores(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], int funct, long int label, int **PC, int tipoInst, int valor, int offset, int memoria[]){
 
   int x, y, z;
   
@@ -156,7 +154,7 @@ void bancoRegistradores(int registradores[], int opcode, char rs[6], char rd[6],
 
   if(strcmp(rd, "$t8") == 0)  { z = 24; } if(strcmp(rd, "$t9") == 0)  { z = 25; }
   
-  ULA(registradores, opcode, rs, rd, rt, funct, label, &PC, x, y, z, tipoInst, valor);
+  ULA(registradores, opcode, rs, rd, rt, funct, label, &PC, x, y, z, tipoInst, valor, memoria);
 
 }
 
@@ -182,7 +180,7 @@ int binarioParaDecimal(int binario[], int tamanho) {
     return resultado;
 }
 
-void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], int funct, long int label, int ***PC, int x, int y, int z, int tipoInst, int valor){
+void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], int funct, long int label, int ***PC, int x, int y, int z, int tipoInst, int valor, int memoria[]){
 
   system("cls");
 
@@ -250,14 +248,16 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
     break;
 
     case 3:
-    printf("Opcode = [%d] | RS = [%d] | RT = [%d] | Immediate = [%d]\n", opcode, x, y, valor);
+    printf("Opcode = [%d] | RS = [%d] | Immediate = [%d]\n", opcode, x, valor);
     if(opcode == 35){
-      printf("[%s] = memória [ %d + %s ]", rs, valor, rt);
+      registradores[x] = memoria[valor];
+      printf("[%s] = memória [ %d ]", rs, valor);
     }
     if(opcode == 43){
-      printf("memória [ %d + %s ] = [%s]", rt, valor, rs);
+      memoria[valor] = registradores[x];
+      printf("memória [ %d ] = [%s]\n", valor, rs);
     }
-    printf("Resultado = [%d]\n", registradores[x]);
+    
     break;
 
     case 4:
@@ -288,10 +288,11 @@ void main(){
   SetConsoleOutputCP(CPAGE_UTF8);
 
   char instrucao[4];
-  int registradores[26] = {0};
+  int registradores[26] = {0}, memoria[500] = {0};
   long int PC = 0;
+  int menu = 1;
 
-  while(instrucao[0] != '0'){
+  while((strcmp(instrucao, "sair") != 0)){
     
     system("cls");
 
@@ -299,17 +300,18 @@ void main(){
     printf("SIMULADOR PROCESSADOR MIPS                                ██\n");
     vazio();borda(100); 
     
-    printf("Digite somente ""0"" para sair\n");
+    printf("Digite sair para encerrar o programa\n");
     printf("Digite a instrução: ");
     scanf(" %s", &instrucao);
 
-    if(strcmp(instrucao, "0") != 0){
+    if(strcmp(instrucao, "sair") != 0){
       PC += 4;
-      buscaIntrucao(instrucao, &registradores, &PC);
+      buscaIntrucao(instrucao, &registradores, &PC, &memoria);
     }
 
   }
 
+  
   printf("$zero = [%d]\n",registradores[0]);
   printf("$st0 =  [%d]\n", registradores[8]);
   printf("$st1 =  [%d]\n", registradores[9]);
