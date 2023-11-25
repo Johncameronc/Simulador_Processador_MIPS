@@ -33,7 +33,10 @@ void buscaIntrucao(char instrucao[], int registradores[], int *PC){
 
   if(strcmp(instrucao, "add") == 0){
     tipoInst = 1;   funct = 32;
-  }   
+  }
+  if(strcmp(instrucao, "move") == 0){
+    tipoInst = 1;   funct = 33;
+  }
   if(strcmp(instrucao, "sub") == 0){
     tipoInst = 1;   funct = 34;
   }   
@@ -77,12 +80,19 @@ void buscaIntrucao(char instrucao[], int registradores[], int *PC){
 
   if(tipoInst == 1){
     opcode = 0;
-    printf("Informe RS: ");
-    scanf(" %s", &rs);
-    printf("Informe RT: ");
-    scanf(" %s", &rt);
-    printf("Informe RD: ");
-    scanf(" %s", &rd);
+    if(funct == 33){
+      printf("Informe RS: ");
+      scanf(" %s", &rs);
+      printf("Informe RT: ");
+      scanf(" %s", &rt);
+    } else {
+      printf("Informe RS: ");
+      scanf(" %s", &rs);
+      printf("Informe RT: ");
+      scanf(" %s", &rt);
+      printf("Informe RD: ");
+      scanf(" %s", &rd);
+    }
   } else if(tipoInst == 2){
     printf("Informe RS: ");
     scanf(" %s", &rs);
@@ -181,6 +191,10 @@ void ULA(int registradores[], int opcode, char rs[5], char rd[5], char rt[5], in
   switch(tipoInst){
 
     case 1:
+    if(funct == 33){
+      printf("Opcode = [%d] | RS = [%d] | RT = [%d] | Schamt = [0] | Funct = [%d]\n", opcode, x, y, funct);
+      printf("[%s] = [%s]\n", rs, rt); registradores[x] = registradores[y]; system("pause"); break;
+    }
     printf("Opcode = [%d] | RS = [%d] | RT = [%d] | RD = [%d] | Schamt = [0] | Funct = [%d]\n", opcode, x, y, z, funct);
     switch(funct){
       case 24: printf("[%s] = [%s] * [%s]\n", rs, rt, rd); printf("[%d] = [%d] * [%d]\n", registradores[x], registradores[y], registradores[z]); registradores[x] = registradores[y] * registradores[z]; printf("Resultado = [%d]\n", registradores[x]); system("pause"); break;

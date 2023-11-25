@@ -23,6 +23,7 @@ $t9 = 25
 
 functs
 
+move = 33
 add = 32
 sub = 34
 mult = 24
