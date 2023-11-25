@@ -125,7 +125,7 @@ void bancoRegistradores(int registradores[], int opcode, char rs[6], char rd[6],
 
   int x, y, z;
   
-  if(strcmp(rs, "z$ero") == 0){ x = 0; }  if(strcmp(rs, "$t0") == 0)  { x = 8; }  if(strcmp(rs, "$t1") == 0)  { x = 9; }  if(strcmp(rs, "$t2") == 0)  { x = 10; }
+  if(strcmp(rs, "$zero") == 0){ x = 0; }  if(strcmp(rs, "$t0") == 0)  { x = 8; }  if(strcmp(rs, "$t1") == 0)  { x = 9; }  if(strcmp(rs, "$t2") == 0)  { x = 10; }
   if(strcmp(rs, "$t3") == 0)  { x = 11; } if(strcmp(rs, "$t4") == 0)  { x = 12; } if(strcmp(rs, "$t5") == 0)  { x = 13; } if(strcmp(rs, "$t6") == 0)  { x = 14; }
   if(strcmp(rs, "$t7") == 0)  { x = 15; }
 
@@ -182,7 +182,7 @@ int binarioParaDecimal(int binario[], int tamanho) {
     return resultado;
 }
 
-void ULA(int registradores[], int opcode, char rs[5], char rd[5], char rt[5], int funct, long int label, int ***PC, int x, int y, int z, int tipoInst, int valor){
+void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], int funct, long int label, int ***PC, int x, int y, int z, int tipoInst, int valor){
 
   system("cls");
 
@@ -279,6 +279,8 @@ void ULA(int registradores[], int opcode, char rs[5], char rd[5], char rt[5], in
     system("pause");
     break;
   }
+
+  registradores[0] = 0;
 
 }
 
