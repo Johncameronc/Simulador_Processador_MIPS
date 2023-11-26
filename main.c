@@ -285,11 +285,11 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
     case 3:
     printf("\n        Opcode = [%d] | RS = [%d] | Immediate = [%d]\n", opcode, x, valor);
     if(opcode == 35){
-      registradores[x] = memoria[valor];
+      bancoMemoria(registradores, memoria, x, valor, opcode);
       printf("\n        [%s] = memória[%d]\n", rs, valor);
     }
     if(opcode == 43){
-      memoria[valor] = registradores[x];
+      bancoMemoria(registradores, memoria, x, valor, opcode);
       printf("\n        memória[%d] = [%s]\n", valor, rs);
     }
     printf("\n        1. (IF) Busca da Instrução\n");
@@ -324,6 +324,17 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
   printf("\n        PC fim da instrução = [%d]\n", ***PC);
   system("pause");
   registradores[0] = 0;
+
+}
+
+void bancoMemoria(int registradores[], int memoria[], int x, int valor, int opcode){
+
+  switch(opcode){
+    case 35: registradores[x] = memoria[valor];
+    break;
+    case 43: memoria[valor] = registradores[x];
+    break;
+  }
 
 }
 
