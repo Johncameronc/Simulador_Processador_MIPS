@@ -355,7 +355,7 @@ void main(){
     system("cls");
     printTitle();
     
-    printf("\n        Digite sair para encerrar o programa\n");
+    printf("\n        Digite ""sair"" para encerrar o programa\n");
     printf("        Digite a instrução: ");
     scanf(" %s", &instrucao);
 
@@ -367,27 +367,27 @@ void main(){
   }
 
   system("cls"); printTitle();
-  printf("\n$zero = [%d]\n",registradores[0]);
-  printf("$st0 =  [%d]\n", registradores[8]);
-  printf("$st1 =  [%d]\n", registradores[9]);
-  printf("$st2 =  [%d]\n", registradores[10]);
-  printf("$st3 =  [%d]\n", registradores[11]);
-  printf("$st4 =  [%d]\n", registradores[12]);
-  printf("$st5 =  [%d]\n", registradores[13]);
-  printf("$st6 =  [%d]\n", registradores[14]);
-  printf("$st7 =  [%d]\n", registradores[15]);
+  printf("\n        $zero = [%d]\n",registradores[0]);
+  printf("        $st0  = [%d]\n", registradores[8]);
+  printf("        $st1  = [%d]\n", registradores[9]);
+  printf("        $st2  = [%d]\n", registradores[10]);
+  printf("        $st3  = [%d]\n", registradores[11]);
+  printf("        $st4  = [%d]\n", registradores[12]);
+  printf("        $st5  = [%d]\n", registradores[13]);
+  printf("        $st6  = [%d]\n", registradores[14]);
+  printf("        $st7  = [%d]\n", registradores[15]);
 
-  printf("$s0 =   [%d]\n", registradores[16]);
-  printf("$s1 =   [%d]\n", registradores[17]);
-  printf("$s2 =   [%d]\n", registradores[18]);
-  printf("$s3 =   [%d]\n", registradores[19]);
-  printf("$s4 =   [%d]\n", registradores[20]);
-  printf("$s5 =   [%d]\n", registradores[21]);
-  printf("$s6 =   [%d]\n", registradores[22]);
-  printf("$s7 =   [%d]\n", registradores[23]);
+  printf("        $s0   = [%d]\n", registradores[16]);
+  printf("        $s1   = [%d]\n", registradores[17]);
+  printf("        $s2   = [%d]\n", registradores[18]);
+  printf("        $s3   = [%d]\n", registradores[19]);
+  printf("        $s4   = [%d]\n", registradores[20]);
+  printf("        $s5   = [%d]\n", registradores[21]);
+  printf("        $s6   = [%d]\n", registradores[22]);
+  printf("        $s7   = [%d]\n", registradores[23]);
 
-  printf("$st8 =  [%d]\n", registradores[24]);
-  printf("$st9 =  [%d]\n", registradores[25]);
-  printf("PC   =  [%li]\n", PC);
+  printf("        $st8  = [%d]\n", registradores[24]);
+  printf("        $st9  = [%d]\n", registradores[25]);
+  printf("        PC    = [%li]\n", PC);
 
 }
