@@ -348,7 +348,6 @@ void main(){
   char instrucao[4];
   int registradores[26] = {0}, memoria[500] = {0};
   long int PC = 0;
-  int menu = 1;
 
   while((strcmp(instrucao, "sair") != 0)){
     
