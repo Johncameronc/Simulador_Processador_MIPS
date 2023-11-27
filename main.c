@@ -205,8 +205,7 @@ void ULA(int registradores[], int opcode, char rs[6], char rd[6], char rt[6], in
     case 1:
     if(funct == 33){
       printf("\n        Opcode = [%d] | RS = [%d] | RT = [%d] | Schamt = [0] | Funct = [%d]\n", opcode, x, y, funct);
-      vazio(); borda(100);
-      printf("[%s] = [%s]\n", rs, rt); registradores[x] = registradores[y]; system("pause"); break;
+      printf("\n        [%s] = [%s]\n", rs, rt); registradores[x] = registradores[y]; break;
       printf("\n        1. (IF) Busca da Instrução\n");
       printf("        2. (ID) Decodificação\n");
       printf("        3. (EX) Execução das Operações Aritméticas / Lógicas ou desvios condicionais\n");
