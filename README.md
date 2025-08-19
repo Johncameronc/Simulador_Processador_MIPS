@@ -55,7 +55,7 @@ O simulador permite:
 ## ▶️ Como Executar
 
 ### 🔹 Windows
-1. Compile o código:
+Compile o código:
    ```bash
    gcc simulador_mips.c -o simulador.exe
    ```
